@@ -1,8 +1,9 @@
 import { parse, Earthstar, ReplicaServer as RS } from './deps.ts';
+import { ExtensionSyncHttp } from './sync_http.ts';
 
 const {
   ExtensionKnownShares,
-  ExtensionSyncWebsocket,
+  // ExtensionSyncHttp,
   ReplicaServer
 } = RS;
 const { ReplicaDriverSqlite } = Earthstar;
@@ -38,7 +39,7 @@ function createServer (opts?) {
         );
       },
     }),
-    new ExtensionSyncWebsocket({
+    new ExtensionSyncHttp({
       path: '/earthstar-api/v2'
     }),
   ], opts);
