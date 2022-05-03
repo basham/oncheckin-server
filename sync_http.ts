@@ -37,7 +37,7 @@ export class ExtensionSyncHttp {
 
     if (this.syncer && pathname.startsWith(this.path)) {
       if (req.method === 'OPTIONS') {
-        const res = new Response(null, {
+        return new Response(null, {
           status: 200,
           headers: {
             'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers',
@@ -45,7 +45,6 @@ export class ExtensionSyncHttp {
             'Access-Control-Allow-Methods': 'GET, POST'
           }
         })
-        return res;
       }
 
       // Typecasting is because of earthstar-streaming-rpc and node-fetch type discrepancies.
