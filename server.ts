@@ -3,7 +3,7 @@ import { ExtensionSyncHttp } from './sync_http.ts';
 
 const {
   ExtensionKnownShares,
-  // ExtensionSyncHttp,
+  ExtensionSyncWebsocket,
   ReplicaServer
 } = RS;
 const { ReplicaDriverSqlite } = Earthstar;
@@ -28,7 +28,7 @@ function createServer (opts?) {
     new ExtensionKnownShares({
       knownSharesPath: './known_shares.json',
       onCreateReplica: (shareAddress) => {
-        return new Earthstar.Replica(
+        const r = new Earthstar.Replica(
           shareAddress,
           Earthstar.FormatValidatorEs4,
           new ReplicaDriverSqlite({
@@ -37,6 +37,12 @@ function createServer (opts?) {
             mode: 'create-or-open'
           }),
         );
+        async function debug () {
+          const docs = await r.getLatestDocs()
+          console.log('Total docs', docs.length)
+        }
+        debug()
+        return r
       },
     }),
     new ExtensionSyncHttp({
